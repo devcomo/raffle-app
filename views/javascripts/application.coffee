@@ -3,7 +3,7 @@ $ ->
 
   Tweets = Backbone.Collection.extend
     model: Tweet
-    url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=20'
+    url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=200'
     parse: (response)->
       results = response.results
       _.values _.reduce(results, (a, b) ->
@@ -26,11 +26,13 @@ $ ->
     render: ->
       $(@el).html(@template(@model.toJSON()))
       @
+    active: ->
+      $(@el).addClass 'active'
 
   TweetsView = Backbone.View.extend
-    el:$('#tweets')
+    el:$('#app')
     events: 
-      'click':'pickRandom'
+      'click #select':'pickRandom'
     initialize: ->
       @tweets = new Tweets();
       @tweets.bind 'reset', (tweets) =>
@@ -39,9 +41,10 @@ $ ->
       @tweets.fetch()
     pickRandom: ->
       tweet = @tweets.selectRandom()
-      alert tweet.get('from_user')
+      tweet.view.active()
+
     render: (tweet) ->
-      $(@el).append tweet
+      @$('#tweets').append tweet
       
   window.App = new TweetsView
         

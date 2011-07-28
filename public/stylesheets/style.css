@@ -1,15 +1,15 @@
 #tweets {
   width: 50%;
 }
+#tweets li.active {
+  background-color: #ff0;
+}
 #tweets li {
   list-style-type: none;
   padding: 2px;
   width: 100px;
   margin: 2px;
   float: left;
-}
-#tweets li .active {
-  background-color: #ff0;
 }
 #tweets li img {
   margin: 1px auto;

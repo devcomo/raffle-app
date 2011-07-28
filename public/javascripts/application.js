@@ -5,7 +5,7 @@
     Tweet = Backbone.Model.extend({});
     Tweets = Backbone.Collection.extend({
       model: Tweet,
-      url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=20',
+      url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=200',
       parse: function(response) {
         var results;
         results = response.results;
@@ -33,12 +33,15 @@
       render: function() {
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
+      },
+      active: function() {
+        return $(this.el).addClass('active');
       }
     });
     TweetsView = Backbone.View.extend({
-      el: $('#tweets'),
+      el: $('#app'),
       events: {
-        'click': 'pickRandom'
+        'click #select': 'pickRandom'
       },
       initialize: function() {
         this.tweets = new Tweets();
@@ -54,10 +57,10 @@
       pickRandom: function() {
         var tweet;
         tweet = this.tweets.selectRandom();
-        return alert(tweet.get('from_user'));
+        return tweet.view.active();
       },
       render: function(tweet) {
-        return $(this.el).append(tweet);
+        return this.$('#tweets').append(tweet);
       }
     });
     return window.App = new TweetsView;
