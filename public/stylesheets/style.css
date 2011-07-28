@@ -1,8 +1,21 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#tweets {
+  width: 50%;
 }
-
-a {
-  color: #00B7FF;
+#tweets li {
+  list-style-type: none;
+  padding: 2px;
+  width: 100px;
+  margin: 2px;
+  float: left;
+}
+#tweets li .active {
+  background-color: #ff0;
+}
+#tweets li img {
+  margin: 1px auto;
+  display: block;
+}
+#tweets li p {
+  text-align: center;
+  margin: 1px;
 }

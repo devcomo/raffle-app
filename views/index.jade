@@ -1,2 +1,12 @@
 h1= title
 p Welcome to #{title}
+
+button(id="select") Select a Winner
+
+ul#tweets
+
+
+
+script#tweet-template(type="text/template")
+  |  <img src="<%= profile_image_url %>"/>
+  |  <p><%= from_user %></p>
