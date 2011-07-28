@@ -42,6 +42,8 @@ $ ->
     pickRandom: ->
       tweet = @tweets.selectRandom()
       tweet.view.active()
+      console.log tweet
+      @$('#winner').text(tweet.get('from_user'))
 
     render: (tweet) ->
       @$('#tweets').append tweet

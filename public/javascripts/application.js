@@ -57,7 +57,9 @@
       pickRandom: function() {
         var tweet;
         tweet = this.tweets.selectRandom();
-        return tweet.view.active();
+        tweet.view.active();
+        console.log(tweet);
+        return this.$('#winner').text(tweet.get('from_user'));
       },
       render: function(tweet) {
         return this.$('#tweets').append(tweet);
