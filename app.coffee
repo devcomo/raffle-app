@@ -1,4 +1,4 @@
-express = require("express")
+express = require 'express'
 stylus = require 'stylus'
 app = module.exports = express.createServer()
 
@@ -9,8 +9,6 @@ app.configure ->
 
   app.set "views", viewsDir
   app.set "view engine", "jade"
-  app.use express.bodyParser()
-  app.use express.methodOverride()
   app.use app.router
   app.use express.compiler(
     src: viewsDir, 
