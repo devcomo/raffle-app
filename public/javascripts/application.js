@@ -51,6 +51,7 @@
       initialize: function() {
         this.tweets = new Tweets();
         this.tweets.bind('reset', __bind(function(tweets) {
+          $("#tweets").empty();
           return tweets.each(__bind(function(tweet) {
             return this.render(new TweetView({
               model: tweet

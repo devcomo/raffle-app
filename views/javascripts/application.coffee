@@ -40,6 +40,7 @@ $ ->
     initialize: ->
       @tweets = new Tweets();
       @tweets.bind 'reset', (tweets) =>
+        $("#tweets").empty()
         tweets.each (tweet) =>
           @render(new TweetView(model:tweet).render().el)
       @getTweets()
