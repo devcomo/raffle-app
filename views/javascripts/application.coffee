@@ -1,7 +1,7 @@
 $ ->
-  Tweet = Backbone.Model.extend({});
+  class Tweet extends Backbone.Model
 
-  Tweets = Backbone.Collection.extend
+  class Tweets extends Backbone.Collection
     model: Tweet
     url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=200'
     parse: (response)->
@@ -18,7 +18,7 @@ $ ->
     randomUpTo: (ceiling) ->
       Math.floor(Math.random()*ceiling)
 
-  TweetView = Backbone.View.extend
+  class TweetView extends Backbone.View
     tagName:'li'
     template: _.template($('#tweet-template').html())
     initialize: ->
@@ -29,7 +29,7 @@ $ ->
     active: ->
       $(@el).addClass 'active'
 
-  TweetsView = Backbone.View.extend
+  class TweetsView extends Backbone.View
     el:$('#app')
     events: 
       'click #select':'pickRandom'
