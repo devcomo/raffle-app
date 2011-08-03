@@ -26,7 +26,7 @@ compileMethod = (str, path) ->
 
 
 app.get "/", (req, res) ->
-  res.render "index", title: "CoMoRichweb Raffle"
+  res.render "index", title: "Twitter Raffle", subtitle: "By <a href='http://comorichweb.posterous.com/'>Como Rich Web</a>"
 
 app.listen 3000
 console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
