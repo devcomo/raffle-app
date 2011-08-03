@@ -5,10 +5,7 @@ This app is for the CoMo Richweb usergroup raffles. It works by simply searching
 The application is written using coffee-script on the serverside and the client side. It requires node.js, coffeescript and npm installed to run. 
 
 From the project directory, first install the dependancies:
-    `npm install coffee-script`
-    `npm install express`
-    `npm install jade`
-    `npm install stylus`
+    `npm install`
 
 Then to run the app:
     `coffee app.coffee`
