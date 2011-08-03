@@ -1,11 +1,16 @@
-h1.clearfix= title 
-  span!= subtitle
+
 
 #app
-  p Searching tweets for <input id="search" value="comorichweb" /> 
-    button(id="select") Select a Winner
-  #winner
-  ul#tweets
+  #raffle
+    h1.clearfix= title 
+      span!= subtitle
+    #raffle-inner.clearfix
+      p Searching tweets for <input id="search" value="comorichweb" /> 
+        button(id="select") Select a Winner
+      #winner
+      ul#tweets.clearfix
+    footer
+      | <a href='https://github.com/CoMoRichWebGroup'>Source code</a>
 
 
 
