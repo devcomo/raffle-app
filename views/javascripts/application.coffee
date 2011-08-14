@@ -3,7 +3,9 @@ $ ->
 
   class Tweets extends Backbone.Collection
     model: Tweet
-    url: 'http://search.twitter.com/search.json?q=comorichweb&callback=?&rpp=200'
+    setURL: (search) -> 
+      @url = "http://search.twitter.com/search.json?q=#{search}&callback=?&rpp=200"
+      console.log @url
     parse: (response)->
       results = response.results
       _.values _.reduce(results, (a, b) ->
@@ -31,13 +33,19 @@ $ ->
 
   class TweetsView extends Backbone.View
     el:$('#app')
+    searchInput:$('#search')
     events: 
       'click #select':'pickRandom'
+      'change #search':'getTweets'
     initialize: ->
       @tweets = new Tweets();
       @tweets.bind 'reset', (tweets) =>
+        $("#tweets").empty()
         tweets.each (tweet) =>
           @render(new TweetView(model:tweet).render().el)
+      @getTweets()
+    getTweets: ->
+      @tweets.setURL(@searchInput.val())
       @tweets.fetch()
     pickRandom: ->
       tweet = @tweets.selectRandom()
