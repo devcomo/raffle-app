@@ -12,8 +12,10 @@ $ ->
         a[b.from_user_id] = b
         a
       ,{})
-    selectRandom: -> 
-      toReturn = @at(@randomUpTo(@length))
+
+    getRandom: -> @at(@randomUpTo(@length))
+    removeRandom: -> 
+      toReturn = @getRandom()
       @remove toReturn
       toReturn
 
@@ -28,9 +30,11 @@ $ ->
     render: ->
       $(@el).html(@template(@model.toJSON()))
       @
+    deactive: ->
+      $(@el).removeClass 'active'
     active: ->
       $(@el).addClass 'active'
-
+    
   class TweetsView extends Backbone.View
     el:$('#app')
     searchInput:$('#search')
@@ -47,11 +51,22 @@ $ ->
     getTweets: ->
       @tweets.setURL(@searchInput.val())
       @tweets.fetch()
-    pickRandom: ->
-      tweet = @tweets.selectRandom()
+
+    hilightRandom: =>
+      if(@tweet)
+        @tweet.view.deactive()
+      @tweet = @tweets.getRandom()
+      @tweet.view.active()
+    selectWinner: =>
+      clearInterval @interval
+      @tweet.view.deactive()
+      tweet = @tweets.removeRandom()
       tweet.view.active()
-      console.log tweet
       @$('#winner').text(tweet.get('from_user'))
+
+    pickRandom: ->
+      @interval = setInterval @hilightRandom, 100
+      setTimeout @selectWinner, 5000 
 
     render: (tweet) ->
       @$('#tweets').append tweet
