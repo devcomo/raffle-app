@@ -9,6 +9,7 @@
 }
 #tweets li.active {
   background-color: #ff0;
+  border-radius: 5px;
 }
 #tweets li {
   list-style-type: none;
@@ -74,7 +75,9 @@ h1 span {
   font-size: 0.6em;
 }
 h1 span a,
-h1 span a:visited,
+h1 span a:visited {
+  color: #66c;
+}
 footer a,
 footer a:visited {
   color: #66c;

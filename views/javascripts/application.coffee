@@ -34,8 +34,10 @@ $ ->
       $(@el).removeClass 'active'
     active: ->
       $(@el).addClass 'active'
-    
+  
   class TweetsView extends Backbone.View
+    SELECTION_LENGTH: 5000
+    RANDOM_SELECTION_INTERVAL: 100
     el:$('#app')
     searchInput:$('#search')
     events: 
@@ -62,11 +64,11 @@ $ ->
       @tweet.view.deactive()
       tweet = @tweets.removeRandom()
       tweet.view.active()
-      @$('#winner').text(tweet.get('from_user'))
+      @$('#winner').text tweet.get('from_user')
 
     pickRandom: ->
-      @interval = setInterval @hilightRandom, 100
-      setTimeout @selectWinner, 5000 
+      @interval = setInterval @hilightRandom, @RANDOM_SELECTION_INTERVAL
+      setTimeout @selectWinner, @SELECTION_LENGTH
 
     render: (tweet) ->
       @$('#tweets').append tweet
