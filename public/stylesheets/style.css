@@ -30,7 +30,7 @@ html {
   font-size: 100%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0.00);
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   margin: 0;
@@ -95,7 +95,7 @@ footer {
   position: relative;
 }
 #raffle {
-  box-shadow: rgba(0,0,0,0.6) 0 0 1px 0;
+  box-shadow: rgba(0,0,0,0.60) 0 0 1px 0;
   border-radius: 8px;
   position: absolute;
   width: 800px;
