@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Twitter Raffle</title>
+<link rel="stylesheet" href="public/stylesheets/style.css"/>
+</head>
+<body>
+
+<div id="app"><div id="raffle"><h1 class="clearfix">Twitter Raffle<span>By <a href='http://comorichweb.posterous.com/'>Como Rich Web</a></span></h1><div id="raffle-inner" class="clearfix"><p>Searching tweets for <input id="search" value="comorichweb" /> <button id="select">Select a Winner</button></p><div id="winner"></div><ul id="tweets" class="clearfix"></ul></div><footer><a href='https://github.com/CoMoRichWebGroup'>Source code</a> 
+</footer></div></div>
+
+<script id="tweet-template" type="text/template"> <img src="<%= profile_image_url %>"/>
+ <p><%= from_user %></p>
+</script>
+
+<script type="text/javascript" src="public/javascripts/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="public/javascripts/underscore-min.js"></script>
+<script type="text/javascript" src="public/javascripts/backbone-min.js"></script>
+<script type="text/javascript" src="public/javascripts/application.js"></script>
+
+</body>
+</html>
