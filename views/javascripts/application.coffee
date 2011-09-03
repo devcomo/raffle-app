@@ -1,5 +1,14 @@
 $ ->
   class Tweet extends Backbone.Model
+  class DisqualifiedUser extends Backbone.Model
+  
+  class DisqualifiedUsers extends Backbone.Collection
+    model: DisqualifiedUser
+    initialize: ->
+      @url = "http://localhost:3000/disqualified"
+    parse: (response)->
+      results = response.disqualified
+      {user: name} for name in response.disqualified
 
   class Tweets extends Backbone.Collection
     model: Tweet
@@ -21,6 +30,12 @@ $ ->
 
     randomUpTo: (ceiling) ->
       Math.floor(Math.random()*ceiling)
+      
+    disqualify: (usernames) ->
+      raw_names = usernames.map (item) =>
+        item.get('user')
+      @reset @reject (tweet) =>
+        $.inArray(tweet.get('from_user'), raw_names) > -1
 
   class TweetView extends Backbone.View
     tagName:'li'
@@ -45,14 +60,18 @@ $ ->
       'change #search':'getTweets'
     initialize: ->
       @tweets = new Tweets();
+      @banlist = new DisqualifiedUsers();
       @tweets.bind 'reset', (tweets) =>
         $("#tweets").empty()
         tweets.each (tweet) =>
           @render(new TweetView(model:tweet).render().el)
       @getTweets()
+      @getBanlist()
     getTweets: ->
       @tweets.setURL(@searchInput.val())
       @tweets.fetch()
+    getBanlist: ->
+      @banlist.fetch()
 
     hilightRandom: =>
       if(@tweet)
@@ -67,6 +86,7 @@ $ ->
       @$('#winner').text tweet.get('from_user')
 
     pickRandom: ->
+      @tweets.disqualify(@banlist)
       @interval = setInterval @hilightRandom, @RANDOM_SELECTION_INTERVAL
       setTimeout @selectWinner, @SELECTION_LENGTH
 

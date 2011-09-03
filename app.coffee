@@ -28,5 +28,13 @@ compileMethod = (str, path) ->
 app.get "/", (req, res) ->
   res.render "index", title: "Twitter Raffle", subtitle: "By <a href='http://comorichweb.posterous.com/'>Como Rich Web</a>"
 
+app.get '/disqualified', (req, res) ->
+  # load disqualified users from yaml file
+  fs = require 'fs'
+  yaml = require 'yaml'
+  fs.readFile 'config/settings.yml', (err, data) ->
+    contents = data.toString('utf-8')
+    res.json(yaml.eval(contents))
+
 app.listen 3000
 console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
