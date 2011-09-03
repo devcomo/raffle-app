@@ -8,13 +8,44 @@
     return child;
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   $(function() {
-    var Tweet, TweetView, Tweets, TweetsView;
+    var DisqualifiedUser, DisqualifiedUsers, Tweet, TweetView, Tweets, TweetsView;
     Tweet = (function() {
       __extends(Tweet, Backbone.Model);
       function Tweet() {
         Tweet.__super__.constructor.apply(this, arguments);
       }
       return Tweet;
+    })();
+    DisqualifiedUser = (function() {
+      __extends(DisqualifiedUser, Backbone.Model);
+      function DisqualifiedUser() {
+        DisqualifiedUser.__super__.constructor.apply(this, arguments);
+      }
+      return DisqualifiedUser;
+    })();
+    DisqualifiedUsers = (function() {
+      __extends(DisqualifiedUsers, Backbone.Collection);
+      function DisqualifiedUsers() {
+        DisqualifiedUsers.__super__.constructor.apply(this, arguments);
+      }
+      DisqualifiedUsers.prototype.model = DisqualifiedUser;
+      DisqualifiedUsers.prototype.initialize = function() {
+        return this.url = "http://localhost:3000/disqualified";
+      };
+      DisqualifiedUsers.prototype.parse = function(response) {
+        var name, results, _i, _len, _ref, _results;
+        results = response.disqualified;
+        _ref = response.disqualified;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          name = _ref[_i];
+          _results.push({
+            user: name
+          });
+        }
+        return _results;
+      };
+      return DisqualifiedUsers;
     })();
     Tweets = (function() {
       __extends(Tweets, Backbone.Collection);
@@ -45,6 +76,15 @@
       };
       Tweets.prototype.randomUpTo = function(ceiling) {
         return Math.floor(Math.random() * ceiling);
+      };
+      Tweets.prototype.disqualify = function(usernames) {
+        var raw_names;
+        raw_names = usernames.map(__bind(function(item) {
+          return item.get('user');
+        }, this));
+        return this.reset(this.reject(__bind(function(tweet) {
+          return $.inArray(tweet.get('from_user'), raw_names) > -1;
+        }, this)));
       };
       return Tweets;
     })();
@@ -87,6 +127,7 @@
       };
       TweetsView.prototype.initialize = function() {
         this.tweets = new Tweets();
+        this.banlist = new DisqualifiedUsers();
         this.tweets.bind('reset', __bind(function(tweets) {
           $("#tweets").empty();
           return tweets.each(__bind(function(tweet) {
@@ -95,11 +136,15 @@
             }).render().el);
           }, this));
         }, this));
-        return this.getTweets();
+        this.getTweets();
+        return this.getBanlist();
       };
       TweetsView.prototype.getTweets = function() {
         this.tweets.setURL(this.searchInput.val());
         return this.tweets.fetch();
+      };
+      TweetsView.prototype.getBanlist = function() {
+        return this.banlist.fetch();
       };
       TweetsView.prototype.hilightRandom = function() {
         if (this.tweet) {
@@ -117,6 +162,7 @@
         return this.$('#winner').text(tweet.get('from_user'));
       };
       TweetsView.prototype.pickRandom = function() {
+        this.tweets.disqualify(this.banlist);
         this.interval = setInterval(this.hilightRandom, this.RANDOM_SELECTION_INTERVAL);
         return setTimeout(this.selectWinner, this.SELECTION_LENGTH);
       };
