@@ -23,6 +23,7 @@
       }
       Tweets.prototype.model = Tweet;
       Tweets.prototype.setURL = function(search) {
+        //this.url = "public/javascripts/testdata.json";
         this.url = "http://search.twitter.com/search.json?q=" + search + "&callback=?&rpp=200";
         return console.log(this.url);
       };
@@ -54,12 +55,20 @@
         TweetView.__super__.constructor.apply(this, arguments);
       }
       TweetView.prototype.tagName = 'li';
+      TweetView.prototype.events = {
+        'click .remove': 'remove'
+      };
       TweetView.prototype.template = _.template($('#tweet-template').html());
       TweetView.prototype.initialize = function() {
         return this.model.view = this;
       };
       TweetView.prototype.render = function() {
         $(this.el).html(this.template(this.model.toJSON()));
+        return this;
+      };
+      TweetView.prototype.remove = function() {
+        this.model.collection.remove(this.model);
+        window.App.renderAll();
         return this;
       };
       TweetView.prototype.deactive = function() {
@@ -88,12 +97,7 @@
       TweetsView.prototype.initialize = function() {
         this.tweets = new Tweets();
         this.tweets.bind('reset', __bind(function(tweets) {
-          $("#tweets").empty();
-          return tweets.each(__bind(function(tweet) {
-            return this.render(new TweetView({
-              model: tweet
-            }).render().el);
-          }, this));
+          this.renderAll();
         }, this));
         return this.getTweets();
       };
@@ -122,6 +126,14 @@
       };
       TweetsView.prototype.render = function(tweet) {
         return this.$('#tweets').append(tweet);
+      };
+      TweetsView.prototype.renderAll = function() {
+          $("#tweets").empty();
+          return this.tweets.each(__bind(function(tweet) {
+            return this.render(new TweetView({
+              model: tweet
+            }).render().el);
+          }, this));
       };
       return TweetsView;
     })();

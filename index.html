@@ -14,7 +14,12 @@
 </footer></div></div>
 
 <script id="tweet-template" type="text/template"> <img src="<%= profile_image_url %>"/>
- <p><%= from_user %></p>
+ <p>
+ <a target='_blank' href='http://twitter.com/<%= from_user %>'><%= from_user %></a>
+ </p>
+ <p>
+ <button class="remove">Remove</button>
+ </p>
 </script>
 
 <script type="text/javascript" src="public/javascripts/jquery-1.6.2.min.js"></script>
